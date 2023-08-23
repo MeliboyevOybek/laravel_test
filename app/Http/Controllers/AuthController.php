@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Products;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,10 +78,10 @@ class AuthController extends Controller
         
 
     }
-    public function index() {
+    // public function index() {
 
-        return view('index');
-    }
+    //     return view('index');
+    // }
 
     
     public function update(Request $request) {
@@ -95,7 +96,7 @@ class AuthController extends Controller
             'birth_date' => 'required'
         ]);
         if($validator->fails()){
-            return view('profile.update')->with(['errors'=>$validator->messages()]);
+            return redirect()->back()->with(['errors'=>$validator->messages()]);
         }
         $user = auth()->user(); 
 
@@ -118,10 +119,28 @@ class AuthController extends Controller
     }
 
     public function profileUpdate() {
-        return view('profile.update');
+        
+        $user = auth()->user(); 
+
+        // if($user == null) {
+        //     return redirect()->back();
+        // }
+        return view('profile.update',['user'=>$user]);
     }
+    
+
     public function logout() {
 
         return redirect('login')->with(Auth::logout());
     }
+
+    public function newPassword() {
+        $user = auth()->user(); 
+
+        // if($user == null) {
+        //     return redirect()->back();
+        // }
+        return view('profile.password',['user'=>$user]);
+    }
+
 }

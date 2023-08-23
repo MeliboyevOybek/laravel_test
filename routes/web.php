@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProdactController;
+use App\Models\ProductsCategory;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,4 +32,16 @@ Route::get('/profil', [AuthController::class, "profil"])->middleware('auth')->na
 Route::post('/update', [AuthController::class, "update"])->middleware('auth')->name("profile-update");
 Route::get('/profile-update', [AuthController::class, "profileUpdate"])->middleware('auth')->name('profil-edit');
 
-Route::get('logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+Route::post('/new-password', [AuthController::class, 'newPassword'])->middleware('auth')->name('new-password');
+
+Route::get('/products', [ProdactController::class, "products"])->middleware('auth')->name('products');
+
+Route::get('product/{id}', [ProdactController::class, 'showOneProduct']);
+
+Route::get('product/add-to-cart/{id}', [ProdactController::class, 'addToCart'])->middleware('auth')->name('addToCartProducts');
+
+Route::get('/cart', [ProdactController::class, "cart"])->middleware('auth')->name('cart');
+
+Route::get('deleteFromCart/{cart_id}', [ProdactController::class, 'deleteFromCart'])->middleware('auth')->name('deleteCart');
